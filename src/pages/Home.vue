@@ -22,20 +22,21 @@
     </v-dialog>
 
     <!-- Store Ad -->
-    <v-dialog v-model="store.isShowStoreAd" fullscreen>
-      <div id="storeAd" class="py-5 px-7">
-        <v-btn id="closeAddBtn" icon @click="store.isShowStoreAd = false;store.lastServerHintId = null; store.requestedPublicServerProfileId = null;">
+    <v-dialog v-model="store.isShowStoreAd">
+      <div id="storeAd" class="py-5 px-7 rounded-lg">
+<!--        <v-btn v-if="!isMaximizeStoreAd" id="closeAddBtn" icon @click="store.isShowStoreAd = false; store.lastServerHintId = null; store.requestedPublicServerProfileId = null;">
           <v-icon>mdi-window-close</v-icon>
-        </v-btn>
-        <div id="addContent">
-          <img  src="../assets/images/add-icons.png" width="100%" alt="Store Ad icons" />
-          <h2 id="adTitle" class="title-bold color-sharp-master-green text-uppercase pb-3 mt-3 mb-6">{{$t("storeAdTitle")}}</h2>
-          <p class="regular-font text--white text-h6 mb-7" v-html="$t('storeAdDescription')"></p>
-          <v-btn block elevation="10" id="goPremiumBtn" class="body-2 text-capitalize py-6"  @click="store.isShowStoreAd = false;"
-                  v-text="$t('goPremiumWithVpnHoodStore')" />
-        </div>
-        <v-btn color="primary" text class="text-capitalize pb-8" @click="store.connect(store.requestedPublicServerProfileId, true);store.isShowStoreAd = false;">
+        </v-btn>-->
+        <img  src="../assets/images/add-icons.png" width="100%" alt="Store Ad icons" />
+        <h3 id="adTitle" class="title-bold color-sharp-master-green text-uppercase pb-2 mb-5 mt-5">{{$t("storeAdTitle")}}</h3>
+        <p id="adDesc" class="regular-font text--white text-left mb-7" v-html="$t('storeAdDescription')"></p>
+        <a id="goPremiumBtn" :class="[isMaximizeStoreAd ? 'sharp-btn' : 'sharp-bordered-btn', 'body-2 text-capitalize py-3 mb-4 rounded-xl']" href="https://www.vpnhood.com/privacy-policy'" target="_blank"
+           v-text="$t('goPremiumWithVpnHoodStore')" ></a>
+        <v-btn v-if="!isMaximizeStoreAd" id="continueBtn" block height="auto" rounded="xl" class="sharp-btn text-capitalize px-3 py-3" @click="store.connect(store.requestedPublicServerProfileId, true);store.isShowStoreAd = false;">
           {{$t('continueWithFreeSlowSpeed')}}<v-icon class="ml-2">mdi-arrow-right-thin</v-icon>
+        </v-btn>
+        <v-btn v-else color="primary" outlined block rounded="xl" class="text-capitalize px-3 py-5" @click="store.isShowStoreAd = false; isMaximizeStoreAd = false;">
+          {{$t('close')}}
         </v-btn>
       </div>
     </v-dialog>
@@ -105,10 +106,14 @@
     </v-snackbar>
 
     <v-row class="align-center h-100">
+      <!-- Minimize store ad -->
+      <div id="minimizeStoreAd" v-if="store.isShowMinimizeStoreAd" @click="store.isShowStoreAd = true; isMaximizeStoreAd = true;">
+        <img  src="../assets/images/add-icons-minimize.png" width="40px" alt="Store Ad icons" />
+        <h3 id="minimizeAdTitle" class="title-bold color-sharp-master-green text-capitalize ml-2">{{$t("storeAdTitle")}}</h3>
+      </div>
       <!-- Circle -->
       <v-col cols="12" sm="6" id="middleSection" class="text-center align-self-center">
         <div class="my-card-view">
-          <div v-if="store.isShowMinimizeStoreAd">Minimize ad</div>
           <!-- Speed -->
           <div id="speedSection" class="text-center d-inline-flex mb-8">
             <div class="mx-2">
@@ -136,7 +141,7 @@
                   </div>
                 </div>
                 <!-- check -->
-                <v-icon class="state-icon" v-if="stateIcon != null" size="90" color="white">{{ this.stateIcon }}
+                <v-icon class="state-icon" v-if="stateIcon != null" size="50" color="white">{{ this.stateIcon }}
                 </v-icon>
               </div>
             </div>
@@ -164,7 +169,7 @@
         </v-btn>
       </v-col>
       <!-- Config (Bottom btn)-->
-      <v-col cols="12" sm="6" id="configSection" class="align-self-end align-self-sm-auto pb-0 pb-sm-3">
+      <v-col cols="12" sm="6" id="configSection" class="align-self-end align-self-sm-auto pb-0">
         <!--Card view apply style only on min-width 600px-->
         <div class="my-card-view">
           <!-- *** ipFilter *** -->
@@ -177,10 +182,7 @@
               :src="store.getIpGroupImageUrl(store.state.clientIpGroup)" max-width="24" class="ma-1" />
           </v-btn>
           <!-- *** appFilter *** -->
-          <v-btn v-if="
-            store.features.isExcludeAppsSupported ||
-            store.features.isIncludeAppsSupported
-          " depressed block class="config-btn mb-2" @click="showAppFilterSheet()">
+          <v-btn  depressed block class="config-btn mb-2" @click="showAppFilterSheet()">
             <v-icon class="config-icon">apps</v-icon>
             <span class="config-label">{{ $t("appFilterStatus_title") }}</span>
             <v-icon class="config-arrow">keyboard_arrow_right</v-icon>
@@ -216,8 +218,10 @@
 
 export default {
   name: "HomePage",
-  components: {
-
+  data(){
+    return{
+      isMaximizeStoreAd: false,
+    }
   },
   created() {
     this.store.checkStoreAdStatus();
@@ -338,6 +342,7 @@ export default {
 </script>
 <style scoped>
 #storeAd{
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -348,24 +353,53 @@ export default {
   background-color: var(--dark-blue);
 }
 #closeAddBtn{
+  position: absolute;
+  top: 10px;
+  left: 10px;
   background-color: rgba(255, 255, 255, 0.05);
 }
 #closeAddBtn i{
   color: white;
   opacity: .5;
 }
-#addContent{
+/*#addContent{
   border: 1px #16a4fd38 solid;
-  padding: 40px 30px;
+  padding: 30px 20px;
   border-radius: 25px;
-}
+}*/
 #adTitle{
+  font-size: 120%;
   border-bottom: 1px rgba(63, 246, 169, 0.15) solid;
 }
 #goPremiumBtn{
-  border-radius: 50px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+.sharp-btn{
   color: white;
   background-image: linear-gradient(to right, var(--sky-blue), var(--sharp-master-green));
   text-shadow: 0 0 4px #000000;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12) !important;
+}
+.sharp-bordered-btn{
+  color: var(--sharp-master-green);
+  border: 1px var(--sharp-master-green) solid;
+}
+#adDesc{
+  font-size: 17px;
+  line-height: 31px;
+}
+#minimizeStoreAd{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  border: 1px var(--sharp-master-green) solid;
+  padding:3px 15px;
+  margin: 0 auto;
+}
+#minimizeAdTitle{
+  font-size: 100%;
 }
 </style>
