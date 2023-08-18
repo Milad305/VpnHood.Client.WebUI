@@ -1,7 +1,7 @@
 <template>
   <v-container id="homeContainer" :class="`h-100 py-0 state-${connectionState.toLowerCase()}`">
     <!-- Public Server Hint -->
-    <v-dialog :value="store.requestedPublicServerProfileId != null" width="500">
+    <v-dialog v-if="!store.isShowStoreAd" :value="store.requestedPublicServerProfileId != null" width="500">
       <v-card>
         <v-card-title class="headline grey lighten-2" v-html="$t('publicServerWarningTitle')" />
         <v-card-text v-html="$t('publicServerWarning')" class="pt-4" />
@@ -15,11 +15,31 @@
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="store.lastServerHintId = null; store.requestedPublicServerProfileId = null;"
             v-text="$t('cancel')" />
-          <v-btn color="primary" text @click="store.connect(store.requestedPublicServerProfileId, true)"
+          <v-btn color="primary" text @click="store.isShowStoreAd = true"
             v-text="$t('accept')" />
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Store Ad -->
+    <v-dialog v-model="store.isShowStoreAd" fullscreen>
+      <div id="storeAd" class="py-5 px-7">
+        <v-btn id="closeAddBtn" icon @click="store.isShowStoreAd = false;store.lastServerHintId = null; store.requestedPublicServerProfileId = null;">
+          <v-icon>mdi-window-close</v-icon>
+        </v-btn>
+        <div id="addContent">
+          <img  src="../assets/images/add-icons.png" width="100%" alt="Store Ad icons" />
+          <h2 id="adTitle" class="title-bold color-sharp-master-green text-uppercase pb-3 mt-3 mb-6">{{$t("storeAdTitle")}}</h2>
+          <p class="regular-font text--white text-h6 mb-7" v-html="$t('storeAdDescription')"></p>
+          <v-btn block elevation="10" id="goPremiumBtn" class="body-2 text-capitalize py-6"  @click="store.isShowStoreAd = false;"
+                  v-text="$t('goPremiumWithVpnHoodStore')" />
+        </div>
+        <v-btn color="primary" text class="text-capitalize pb-8" @click="store.connect(store.requestedPublicServerProfileId, true);store.isShowStoreAd = false;">
+          {{$t('continueWithFreeSlowSpeed')}}<v-icon class="ml-2">mdi-arrow-right-thin</v-icon>
+        </v-btn>
+      </div>
+    </v-dialog>
+
     <v-snackbar top :timeout="-1" :value="store.state.isWaitingForAd" class="body-2">
       <div>
         <p class="text-center subtitle-2"> You have connected to a<br><b class="yellow--text">Free Public VpnHood
@@ -88,6 +108,7 @@
       <!-- Circle -->
       <v-col cols="12" sm="6" id="middleSection" class="text-center align-self-center">
         <div class="my-card-view">
+          <div v-if="store.isShowMinimizeStoreAd">Minimize ad</div>
           <!-- Speed -->
           <div id="speedSection" class="text-center d-inline-flex mb-8">
             <div class="mx-2">
@@ -199,6 +220,8 @@ export default {
 
   },
   created() {
+    this.store.checkStoreAdStatus();
+
     this.store.setTitle(this.$t("home"));
     this.monitorId = setInterval(() => {
       if (!document.hidden)
@@ -210,8 +233,6 @@ export default {
     clearInterval(this.monitorId);
     this.monitorId = 0;
   },
-  data: () => ({
-  }),
   computed: {
     connectionState() { return this.store.connectionState("$"); },
     appFilterStatus() {
@@ -315,3 +336,36 @@ export default {
   }
 }
 </script>
+<style scoped>
+#storeAd{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-blue);
+}
+#closeAddBtn{
+  background-color: rgba(255, 255, 255, 0.05);
+}
+#closeAddBtn i{
+  color: white;
+  opacity: .5;
+}
+#addContent{
+  border: 1px #16a4fd38 solid;
+  padding: 40px 30px;
+  border-radius: 25px;
+}
+#adTitle{
+  border-bottom: 1px rgba(63, 246, 169, 0.15) solid;
+}
+#goPremiumBtn{
+  border-radius: 50px;
+  color: white;
+  background-image: linear-gradient(to right, var(--sky-blue), var(--sharp-master-green));
+  text-shadow: 0 0 4px #000000;
+}
+</style>

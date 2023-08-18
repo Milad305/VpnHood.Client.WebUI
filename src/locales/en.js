@@ -97,6 +97,10 @@ export default {
     ignore: "Ignore",
     update: "Update",
     currentVersion: "Your Version:",
-    newVersion: "New Version:"
+    newVersion: "New Version:",
+    storeAdTitle:"get fast premium servers",
+    storeAdDescription:"Now, you can purchase fast, premium servers using official <strong class='title-bold'>VpnHood</strong> <strong class='title-bold color-sharp-master-green'>STORE</strong> App",
+    goPremiumWithVpnHoodStore:"Go Premium on Google Play",
+    continueWithFreeSlowSpeed:"Continue With Free Slow Speed"
 };
 

@@ -17,6 +17,8 @@ export default {
     clientProfileItems: [],
     clientProfile: clientProfile,
     requestedPublicServerProfileId: null,
+    isShowStoreAd:false,
+    isShowMinimizeStoreAd: false,
     installedApps: null,
     ipGroups: null,
     newServerAdded: false,
@@ -144,10 +146,12 @@ export default {
             let item = this.clientProfile.item(clientProfileId);
             this.lastServerHintId = clientProfileId;
             if (item.token.pb) {
+                localStorage.setItem("isPublicServersUsedAtLeastOnce", "true")
                 this.requestedPublicServerProfileId = clientProfileId;
                 return;
             }
         }
+        this.checkStoreAdStatus();
 
         this.requestedPublicServerProfileId = null;
         this.clearConnectionHint();
@@ -242,5 +246,9 @@ export default {
             body: JSON.stringify(args) // body data type must match "Content-Type" header
         });
         return response;
+    },
+    checkStoreAdStatus(){
+        const isPublicServersUsedAtLeastOnce = localStorage.getItem("isPublicServersUsedAtLeastOnce");
+        this.isShowMinimizeStoreAd = isPublicServersUsedAtLeastOnce === "true" && this.clientProfile.name("$") === "VpnHood Public Servers";
     }
 }

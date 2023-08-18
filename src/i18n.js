@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import en from './locales/zh-Hans.js'
+import en from './locales/en.js'
 import zhHans from './locales/zh-Hans.js'
 Vue.use(VueI18n);
 
