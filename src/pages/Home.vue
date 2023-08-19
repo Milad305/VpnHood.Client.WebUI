@@ -30,7 +30,7 @@
         <img  src="../assets/images/add-icons.png" width="100%" alt="Store Ad icons" />
         <h3 id="adTitle" class="title-bold color-sharp-master-green text-uppercase pb-2 mb-5 mt-5">{{$t("storeAdTitle")}}</h3>
         <p id="adDesc" class="regular-font text--white text-left mb-7" v-html="$t('storeAdDescription')"></p>
-        <a id="goPremiumBtn" :class="[isMaximizeStoreAd ? 'sharp-btn' : 'sharp-bordered-btn', 'body-2 text-capitalize py-3 mb-4 rounded-xl']" href="https://www.vpnhood.com/privacy-policy'" target="_blank"
+        <a id="goPremiumBtn" :class="[isMaximizeStoreAd ? 'sharp-btn' : 'sharp-bordered-btn', 'body-2 text-capitalize py-3 mb-4 rounded-xl']" href="https://play.google.com/store/apps/details?id=com.vphood.store.android" target="_blank"
            v-text="$t('goPremiumWithVpnHoodStore')" ></a>
         <v-btn v-if="!isMaximizeStoreAd" id="continueBtn" block height="auto" rounded class="sharp-btn text-capitalize px-3 py-3" @click="store.connect(store.requestedPublicServerProfileId, true);store.isShowStoreAd = false;">
           {{$t('continueWithFreeSlowSpeed')}}<v-icon class="ml-2">mdi-arrow-right-thin</v-icon>
