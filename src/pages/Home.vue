@@ -32,10 +32,10 @@
         <p id="adDesc" class="regular-font text--white text-left mb-7" v-html="$t('storeAdDescription')"></p>
         <a id="goPremiumBtn" :class="[isMaximizeStoreAd ? 'sharp-btn' : 'sharp-bordered-btn', 'body-2 text-capitalize py-3 mb-4 rounded-xl']" href="https://www.vpnhood.com/privacy-policy'" target="_blank"
            v-text="$t('goPremiumWithVpnHoodStore')" ></a>
-        <v-btn v-if="!isMaximizeStoreAd" id="continueBtn" block height="auto" rounded="xl" class="sharp-btn text-capitalize px-3 py-3" @click="store.connect(store.requestedPublicServerProfileId, true);store.isShowStoreAd = false;">
+        <v-btn v-if="!isMaximizeStoreAd" id="continueBtn" block height="auto" rounded class="sharp-btn text-capitalize px-3 py-3" @click="store.connect(store.requestedPublicServerProfileId, true);store.isShowStoreAd = false;">
           {{$t('continueWithFreeSlowSpeed')}}<v-icon class="ml-2">mdi-arrow-right-thin</v-icon>
         </v-btn>
-        <v-btn v-else color="primary" outlined block rounded="xl" class="text-capitalize px-3 py-5" @click="store.isShowStoreAd = false; isMaximizeStoreAd = false;">
+        <v-btn v-else color="primary" outlined block rounded class="text-capitalize px-3 py-5" @click="store.isShowStoreAd = false; isMaximizeStoreAd = false;">
           {{$t('close')}}
         </v-btn>
       </div>
@@ -182,7 +182,10 @@
               :src="store.getIpGroupImageUrl(store.state.clientIpGroup)" max-width="24" class="ma-1" />
           </v-btn>
           <!-- *** appFilter *** -->
-          <v-btn  depressed block class="config-btn mb-2" @click="showAppFilterSheet()">
+          <v-btn v-if="
+            store.features.isExcludeAppsSupported ||
+            store.features.isIncludeAppsSupported
+          " depressed block class="config-btn mb-2" @click="showAppFilterSheet()">
             <v-icon class="config-icon">apps</v-icon>
             <span class="config-label">{{ $t("appFilterStatus_title") }}</span>
             <v-icon class="config-arrow">keyboard_arrow_right</v-icon>
