@@ -1,7 +1,7 @@
 <template>
   <v-container id="homeContainer" :class="`h-100 py-0 state-${connectionState.toLowerCase()}`">
     <!-- Public Server Hint -->
-    <v-dialog v-if="!store.isShowStoreAd" :value="store.requestedPublicServerProfileId != null" width="500">
+   <!--  <v-dialog v-if="!store.isShowStoreAd" :value="store.requestedPublicServerProfileId != null" width="500">
       <v-card>
         <v-card-title class="headline grey lighten-2" v-html="$t('publicServerWarningTitle')" />
         <v-card-text v-html="$t('publicServerWarning')" class="pt-4" />
@@ -19,14 +19,11 @@
             v-text="$t('accept')" />
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
     <!-- Store Ad -->
-    <v-dialog v-model="store.isShowStoreAd">
+    <!-- <v-dialog v-model="store.isShowStoreAd">
       <div id="storeAd" class="py-5 px-7 rounded-lg">
-<!--        <v-btn v-if="!isMaximizeStoreAd" id="closeAddBtn" icon @click="store.isShowStoreAd = false; store.lastServerHintId = null; store.requestedPublicServerProfileId = null;">
-          <v-icon>mdi-window-close</v-icon>
-        </v-btn>-->
         <img  src="../assets/images/add-icons.png" width="100%" alt="Store Ad icons" />
         <h3 id="adTitle" class="title-bold color-sharp-master-green text-uppercase pb-2 mb-5 mt-5">{{$t("storeAdTitle")}}</h3>
         <p id="adDesc" class="regular-font text--white text-left mb-7" v-html="$t('storeAdDescription')"></p>
@@ -39,7 +36,7 @@
           {{$t('close')}}
         </v-btn>
       </div>
-    </v-dialog>
+    </v-dialog> -->
 
     <v-snackbar top :timeout="-1" :value="store.state.isWaitingForAd" class="body-2">
       <div>
@@ -173,16 +170,16 @@
         <!--Card view apply style only on min-width 600px-->
         <div class="my-card-view">
           <!-- *** ipFilter *** -->
-          <v-btn depressed block class="config-btn mb-2" @click="showIpFilterSheet()">
+         <!--  <v-btn depressed block class="config-btn mb-2" @click="showIpFilterSheet()">
             <v-icon class="config-icon">public</v-icon>
             <span class="config-label">{{ $t("ipFilterStatus_title") }}</span>
             <v-icon class="config-arrow" flat>keyboard_arrow_right</v-icon>
             <span class="config">{{ this.clientCountryFilterStatus }}</span>
             <v-img v-if="!store.userSettings.tunnelClientCountry"
               :src="store.getIpGroupImageUrl(store.state.clientIpGroup)" max-width="24" class="ma-1" />
-          </v-btn>
+          </v-btn> -->
           <!-- *** appFilter *** -->
-          <v-btn v-if="
+          <!-- <v-btn v-if="
             store.features.isExcludeAppsSupported ||
             store.features.isIncludeAppsSupported
           " depressed block class="config-btn mb-2" @click="showAppFilterSheet()">
@@ -190,14 +187,14 @@
             <span class="config-label">{{ $t("appFilterStatus_title") }}</span>
             <v-icon class="config-arrow">keyboard_arrow_right</v-icon>
             <span class="config">{{ this.appFilterStatus }}</span>
-          </v-btn>
+          </v-btn> -->
           <!-- *** Protocol *** -->
-          <v-btn depressed block class="config-btn mb-2" @click="showProtocolSheet()">
+          <!-- <v-btn depressed block class="config-btn mb-2" @click="showProtocolSheet()">
             <v-icon class="config-icon">settings_ethernet</v-icon>
             <span class="config-label">{{ $t("protocol_title") }}</span>
             <v-icon class="config-arrow" flat>keyboard_arrow_right</v-icon>
             <span class="config">{{ protocolStatus }}</span>
-          </v-btn>
+          </v-btn> -->
           <!-- *** server *** -->
           <v-btn depressed block class="config-btn" @click="showServersSheet()">
             <v-icon class="config-icon">dns</v-icon>

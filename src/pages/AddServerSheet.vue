@@ -2,12 +2,12 @@
   <v-bottom-sheet v-model="sheetVisible" value="true">
     <v-sheet>
       <!-- Add Test Server -->
-      <v-card v-if="testServerVisible" class="mx-auto ma-5" max-width="600" flat>
+      <!-- <v-card v-if="testServerVisible" class="mx-auto ma-5" max-width="600" flat>
         <v-card-title>{{ $t("addTestServer") }}</v-card-title>
         <v-card-subtitle>{{ $t("addTestServerSubtitle") }}</v-card-subtitle>
         <v-btn text @click="addTestServer()">{{ $t("add") }}</v-btn>
         <v-divider class="mt-5" />
-      </v-card>
+      </v-card> -->
 
       <!-- Add Private Server -->
       <v-card class="mx-auto" max-width="600" flat>

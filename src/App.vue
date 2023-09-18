@@ -9,10 +9,10 @@
     <IpFilterSheet v-if="this.$route.query.ipfilter != null" />
     <TunnelClientCountrySheet v-if="this.$route.query.mycountry != null" />
     <SettingsSheet />
-    <v-navigation-drawer app :width="250" temporary :disable-resize-watcher="false" :right="$vuetify.rtl"
+  <!--   <v-navigation-drawer app :width="250" temporary :disable-resize-watcher="false" :right="$vuetify.rtl"
       v-model="store.navigationDrawer">
       <Navigation />
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     <!-- Add New Server Hint -->
     <v-snackbar top app color="success" centered v-model="store.newServerAdded">{{ $t("newServerAdded") }}</v-snackbar>
     <v-app-bar dense color="transparent" dark elevation="0">
@@ -42,7 +42,7 @@ html {
 </style>
 
 <script>
-import Navigation from "./components/NavigationPane.vue";
+//import Navigation from "./components/NavigationPane.vue";
 import ErrorSheet from "./pages/ErrorSheet";
 import AddServerSheet from "./pages/AddServerSheet";
 import ClientProfileSheet from "./pages/ClientProfileSheet";
@@ -59,7 +59,7 @@ export default {
 
   components: {
     ClientProfileMenu,
-    Navigation,
+   // Navigation,
     ErrorSheet,
     AddServerSheet,
     ClientProfileSheet,
